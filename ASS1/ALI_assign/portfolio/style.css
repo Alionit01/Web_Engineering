@@ -1,0 +1,1821 @@
+/* ==========================================================================
+   PORTFOLIO ONE — ALI
+   Dark manga / underground-editorial art direction.
+   HTML5 + CSS3 only — no JavaScript anywhere in this build.
+
+   TABLE OF CONTENTS
+   01. Tokens (colour, type, spacing)
+   02. Reset & base
+   03. Shared utilities, textures & image frames
+   04. Navigation
+   05. Mobile menu (pure CSS, :target technique)
+   06. Hero
+   07. Section headers
+   08. About
+   09. Skills
+   10. Selected work (three project compositions)
+   11. Creative journey
+   12. Contact
+   13. Finale & colophon
+   14. Motion (entrance, marquee, reveal — with reduced-motion guard)
+   15. Responsive — tablet  ≥760px
+   16. Responsive — desktop ≥1080px
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. TOKENS
+   ========================================================================== */
+
+:root {
+  /* colour */
+  --bg-0:   #090909;   /* almost black — primary surface   */
+  --bg-1:   #151515;   /* dark charcoal — secondary surface */
+  --paper:  #F2F0EB;   /* warm white — primary text        */
+  --red:    #D51F32;   /* deep crimson — accent            */
+  --muted:  #8B877F;   /* warm grey — secondary text       */
+  --ink-70: rgba(242, 240, 235, 0.72);
+  --line:   rgba(242, 240, 235, 0.16);   /* thin hairline     */
+  --line-2: rgba(242, 240, 235, 0.09);
+
+  /* typography */
+  --font-display: 'Anton', 'Haettenschweiler', 'Impact', 'Arial Narrow', sans-serif;
+  --font-sans:    'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif:   'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --font-mono:    'Space Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-jp:      'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+
+  /* spacing & layout */
+  --gutter:   clamp(1.25rem, 4vw, 4rem);
+  --max-w:    96rem;
+  --header-h: 3.5rem;
+  --sec-pad:  clamp(5rem, 12vh, 9rem);
+  --ease:     cubic-bezier(0.22, 0.61, 0.21, 1);
+}
+
+
+/* ==========================================================================
+   02. RESET & BASE
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1.5rem);
+  overflow-x: clip;
+  scrollbar-width: thin;
+  scrollbar-color: #2e2e2e var(--bg-0);
+}
+
+body {
+  background: var(--bg-0);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* film grain laid over the whole experience — subtle, never loud */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+::selection {
+  background: var(--red);
+  color: var(--paper);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-0); }
+::-webkit-scrollbar-thumb { background: #2e2e2e; border: 2px solid var(--bg-0); }
+
+.container {
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 300;
+  background: var(--red);
+  color: var(--bg-0);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  padding: 0.7rem 1rem;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* pulsing red status dot — used in nav, about metadata */
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--red);
+  margin-right: 0.55rem;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+
+/* ==========================================================================
+   03. SHARED UTILITIES, TEXTURES & IMAGE FRAMES
+   ========================================================================== */
+
+/* number label used under figures — "FIG. 00", "PLATE 02" … */
+.hc-num {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--red);
+  margin-right: 0.9rem;
+}
+
+/*
+ * .img-frame — every photograph lives inside one of these.
+ * Doubles as a graceful fallback: if a remote image ever fails,
+ * the frame still shows a designed dark composition instead of a void.
+ */
+.img-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(213, 31, 50, 0.16), transparent 55%),
+    repeating-linear-gradient(45deg, var(--bg-1) 0 14px, #0d0d0d 14px 28px);
+}
+
+.img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.12) brightness(0.92);
+  transition: transform 1.3s var(--ease), filter 0.6s ease;
+}
+
+/* manga screentone — halftone dots printed over every image */
+.img-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(242, 240, 235, 0.55) 0.5px, transparent 0.6px);
+  background-size: 4px 4px;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+}
+
+/* any project hover → zoom inside its frame */
+.project:hover .img-frame img {
+  transform: scale(1.06);
+}
+
+
+/* ==========================================================================
+   04. NAVIGATION
+   ========================================================================== */
+
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background: rgba(9, 9, 9, 0.94);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  height: var(--header-h);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  line-height: 1;
+  padding-block: 0.2rem;
+}
+
+.brand-dot {
+  color: var(--red);
+}
+
+/* inline links — desktop & tablet only (hidden on phones) */
+.nav-links {
+  display: none;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-decoration: none;
+  padding-block: 0.45rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link .nl-num {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--red);
+  margin-right: 0.45rem;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--paper);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease);
+}
+
+.nav-link:hover {
+  color: var(--paper);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-status {
+  display: none;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+/* burger — three raw rules, no icon font */
+.nav-burger {
+  margin-left: auto;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0.7rem 0.35rem;
+}
+
+.nav-burger span {
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: var(--paper);
+  transition: background 0.3s ease, transform 0.3s var(--ease);
+}
+
+.nav-burger:hover span {
+  background: var(--red);
+}
+
+.nav-burger:hover span:nth-child(2) {
+  transform: scaleX(0.55);
+  transform-origin: left;
+}
+
+
+/* ==========================================================================
+   05. MOBILE MENU — pure CSS via :target
+   Opens at #menu; closes itself the moment any section link is
+   followed, because the target moves. No JavaScript involved.
+   ========================================================================== */
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--bg-0);
+  padding: calc(var(--header-h) + 1rem) var(--gutter) 1.75rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.menu:target {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.menu-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.menu-label {
+  font-family: var(--font-jp);
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
+
+.menu-close {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  color: var(--paper);
+}
+
+.menu-close span {
+  color: var(--red);
+}
+
+.menu-close:hover {
+  color: var(--red);
+}
+
+.menu-list {
+  align-self: center;
+}
+
+.menu-link {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding-block: clamp(0.8rem, 2.6vh, 1.3rem);
+  border-top: 1px solid var(--line-2);
+  text-decoration: none;
+  transform: translateX(-1.5rem);
+  opacity: 0;
+  transition: transform 0.45s var(--ease), opacity 0.45s ease;
+}
+
+.menu-list li:last-child .menu-link {
+  border-bottom: 1px solid var(--line-2);
+}
+
+.menu:target .menu-link {
+  transform: none;
+  opacity: 1;
+}
+
+/* staggered entrance, one rule per item */
+.menu:target .menu-list li:nth-child(1) .menu-link { transition-delay: 0.05s; }
+.menu:target .menu-list li:nth-child(2) .menu-link { transition-delay: 0.11s; }
+.menu:target .menu-list li:nth-child(3) .menu-link { transition-delay: 0.17s; }
+.menu:target .menu-list li:nth-child(4) .menu-link { transition-delay: 0.23s; }
+.menu:target .menu-list li:nth-child(5) .menu-link { transition-delay: 0.29s; }
+
+.ml-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--red);
+}
+
+.ml-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 9vw, 4rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease, transform 0.3s var(--ease);
+}
+
+.ml-jp {
+  font-family: var(--font-jp);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
+
+.menu-link:hover .ml-name {
+  color: var(--red);
+  transform: translateX(0.6rem);
+}
+
+.menu-foot {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+
+/* ==========================================================================
+   06. HERO — the opening page of the magazine
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-top: calc(var(--header-h) + 0.75rem);
+  padding-bottom: 3rem;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "overline"
+    "name"
+    "figure"
+    "headline"
+    "intro"
+    "meta"
+    "scroll";
+  row-gap: clamp(1.1rem, 2.6vh, 1.8rem);
+}
+
+.hero-overline { grid-area: overline; }
+.hero-name     { grid-area: name; }
+.hero-figure   { grid-area: figure; }
+.hero-headline { grid-area: headline; }
+.hero-intro    { grid-area: intro; }
+.hero-meta     { grid-area: meta; }
+.hero-scroll    { grid-area: scroll; }
+
+/* vertical issue line running down the right edge */
+.hero-issue {
+  position: absolute;
+  right: clamp(0.4rem, 1.4vw, 1.1rem);
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.34em;
+  color: rgba(242, 240, 235, 0.5);
+  z-index: 4;
+}
+
+.hero-overline {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.overline-tick {
+  width: 9px;
+  height: 9px;
+  background: var(--red);
+  flex: none;
+}
+
+.overline-jp {
+  font-family: var(--font-jp);
+  letter-spacing: 0.42em;
+  color: var(--paper);
+}
+
+/* the name — sized from the viewport so it always dominates */
+.hero-name {
+  position: relative;
+  z-index: 3;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: max(5.5rem, 28vw);
+  line-height: 0.8;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  width: max-content;
+}
+
+.hero-dot {
+  color: var(--red);
+}
+
+/* misregistered print echo — crimson outline offset behind the name */
+.hero-name-echo {
+  position: absolute;
+  top: 0.07em;
+  left: 0.12em;
+  z-index: -1;
+  color: transparent;
+  -webkit-text-stroke: 3px var(--red);
+}
+
+.hero-figure {
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.hero-frame {
+  aspect-ratio: 3 / 4;
+}
+
+/* thin crimson spine along the image edge */
+.hero-frame::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: var(--red);
+  z-index: 3;
+}
+
+/* vertical Japanese caption pinned to the panel — 創造 / creation */
+.hero-jp {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 2.6rem;
+  writing-mode: vertical-rl;
+  font-family: var(--font-jp);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.4em;
+  background: var(--red);
+  color: var(--bg-0);
+  padding: 0.85rem 0.42rem;
+  z-index: 3;
+}
+
+.hero-caption {
+  margin-top: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 9vw, 4rem);
+  line-height: 0.96;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.hero-headline em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 1.06em;
+  letter-spacing: 0.01em;
+  color: var(--red);
+}
+
+.hero-intro {
+  max-width: 36ch;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--ink-70);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.hero-meta li + li::before {
+  content: '/';
+  color: var(--red);
+  margin-right: 1.4rem;
+}
+
+/* scroll indicator */
+.hero-scroll {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.5rem;
+  text-decoration: none;
+}
+
+.hs-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  transition: color 0.3s ease;
+}
+
+.hs-line {
+  position: relative;
+  width: 1px;
+  height: 2.2rem;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.hs-line::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  transform: translateY(-100%);
+  animation: drip 2.1s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.hs-arrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--red);
+}
+
+.hero-scroll:hover .hs-label {
+  color: var(--paper);
+}
+
+
+/* ==========================================================================
+   07. SECTION HEADERS — numbered, hairline-ruled
+   ========================================================================== */
+
+section {
+  padding-block: var(--sec-pad);
+}
+
+.sec-head {
+  margin-bottom: clamp(2.5rem, 7vh, 4.5rem);
+}
+
+.sec-kicker {
+  display: flex;
+  align-items: baseline;
+  gap: 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+
+.sec-num {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.sec-jp {
+  font-family: var(--font-jp);
+  letter-spacing: 0.42em;
+}
+
+.sec-note {
+  margin-left: auto;
+  text-align: right;
+}
+
+.sec-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.9rem, 9.5vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+/* the rule that runs from the title to the margin */
+.sec-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  min-width: 2rem;
+}
+
+
+/* ==========================================================================
+   08. ABOUT — editorial spread
+   ========================================================================== */
+
+.about-figure {
+  position: relative;
+  max-width: 26rem;
+}
+
+/* crimson plate offset behind the portrait */
+.about-figure::before {
+  content: '';
+  position: absolute;
+  right: -1.25rem;
+  bottom: -1.25rem;
+  width: 100%;
+  height: 100%;
+  background: var(--red);
+  z-index: 0;
+}
+
+.about-frame {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 3 / 4;
+}
+
+.about-caption {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.about-meta {
+  position: relative;
+  z-index: 1;
+  margin-top: 2.2rem;
+}
+
+.about-meta div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.5rem;
+  padding-block: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.about-meta div:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.about-meta dt {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.about-meta dd {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.st-open {
+  color: var(--red);
+}
+
+.about-statement {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 7.5vw, 4.2rem);
+  line-height: 1.04;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin-bottom: clamp(2rem, 5vh, 3.2rem);
+}
+
+.about-statement em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 1.02em;
+}
+
+.about-statement .st-red {
+  color: var(--red);
+}
+
+.about-bio {
+  max-width: 62ch;
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--ink-70);
+  margin-bottom: 1.4rem;
+}
+
+/* editorial drop cap on the opening paragraph */
+.about-bio:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-size: 3.3em;
+  float: left;
+  line-height: 0.78;
+  padding: 0.06em 0.14em 0 0;
+  color: var(--red);
+}
+
+.about-bio code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--paper);
+  border: 1px solid var(--line);
+  padding: 0.05em 0.4em;
+}
+
+
+/* ==========================================================================
+   09. SKILLS — typographic index, no progress bars
+   ========================================================================== */
+
+.skills {
+  background: var(--bg-1);
+  border-block: 1px solid var(--line);
+}
+
+.skill {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  gap: 0.3rem 1rem;
+  align-items: baseline;
+  padding-block: 1.15rem;
+  border-top: 1px solid var(--line);
+  transition: background 0.28s ease;
+}
+
+.skills-list li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.skill-idx {
+  grid-row: 1;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--red);
+  transition: color 0.28s ease;
+}
+
+.skill-name {
+  grid-row: 1;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 6.5vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  transition: color 0.28s ease, transform 0.28s var(--ease);
+}
+
+.skill-note {
+  grid-column: 2;
+  grid-row: 2;
+  max-width: 44ch;
+  font-size: 0.86rem;
+  color: var(--muted);
+  transition: color 0.28s ease;
+}
+
+.skill-arrow {
+  display: none;
+}
+
+/* hover: the whole row flips to crimson — ink on paper on red */
+.skill:hover {
+  background: var(--red);
+}
+
+.skill:hover .skill-idx,
+.skill:hover .skill-note {
+  color: rgba(9, 9, 9, 0.72);
+}
+
+.skill:hover .skill-name {
+  color: var(--bg-0);
+  transform: translateX(0.55rem);
+}
+
+
+/* ==========================================================================
+   10. SELECTED WORK — three projects, three different compositions
+   ========================================================================== */
+
+.work-note {
+  max-width: 46ch;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  line-height: 1.5;
+  color: var(--ink-70);
+  margin-bottom: clamp(3.5rem, 8vh, 6rem);
+}
+
+.project {
+  position: relative;
+}
+
+.project + .project {
+  margin-top: clamp(5rem, 12vh, 9rem);
+}
+
+/* giant outlined number floating over each study */
+.project-idx {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 15vw, 11rem);
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(242, 240, 235, 0.38);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* shared body panel bits */
+.project-kicker {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  margin-bottom: 1.1rem;
+}
+
+.pk-num {
+  color: var(--red);
+}
+
+.pk-meta {
+  color: var(--muted);
+}
+
+.project-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 8vw, 4.2rem);
+  line-height: 0.95;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.project-desc {
+  max-width: 46ch;
+  font-size: 0.97rem;
+  line-height: 1.75;
+  color: var(--ink-70);
+  margin-bottom: 1.6rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.project-tags li {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  border: 1px solid var(--line);
+  padding: 0.38rem 0.65rem;
+  color: var(--muted);
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.project-role {
+  margin-top: 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+/* mobile base for every project: image first, panel overlapping it */
+.project-media {
+  aspect-ratio: 4 / 3;
+}
+
+.project-b .project-media {
+  aspect-ratio: 3 / 4;
+}
+
+.project-c .project-media {
+  aspect-ratio: 4 / 3;
+}
+
+.project-body {
+  position: relative;
+  z-index: 2;
+  margin-top: -2.4rem;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  padding: clamp(1.4rem, 4vw, 2rem);
+  transition: border-color 0.3s ease;
+}
+
+.project:hover .project-body {
+  border-color: var(--red);
+}
+
+.project:hover .project-title {
+  color: var(--red);
+}
+
+.project:hover .project-tags li {
+  border-color: rgba(242, 240, 235, 0.3);
+  color: var(--paper);
+}
+
+/* composition B — the plate hangs lower than its caption row */
+.project-plate {
+  margin-top: 1rem;
+}
+
+.project-caption {
+  margin-top: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+/* composition C — crimson duotone printed over the frame,
+   clearing on hover like a screen warming up */
+.project-c .project-media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: var(--red);
+  mix-blend-mode: multiply;
+  opacity: 0.88;
+  transition: opacity 0.6s ease;
+}
+
+.project-c:hover .project-media::before {
+  opacity: 0;
+}
+
+/* composition B — the negative develops on hover */
+.project-b:hover .img-frame img {
+  filter: grayscale(0) contrast(1.05) brightness(0.98);
+}
+
+
+/* ==========================================================================
+   11. CREATIVE JOURNEY — vertical rail
+   ========================================================================== */
+
+.journey {
+  background: var(--bg-1);
+  border-block: 1px solid var(--line);
+}
+
+.journey-rail {
+  --rail-pad: clamp(1.9rem, 5vw, 4rem);
+  position: relative;
+  padding-left: var(--rail-pad);
+}
+
+/* the axis */
+.journey-rail::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 1px;
+  background: var(--line);
+}
+
+.stop {
+  position: relative;
+  display: grid;
+  gap: 0.5rem 1rem;
+  padding-block: clamp(2rem, 5vh, 3.2rem);
+}
+
+.stop + .stop {
+  border-top: 1px dashed var(--line-2);
+}
+
+/* square marker sitting on the axis */
+.stop::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--rail-pad) - 4px);
+  top: clamp(2.6rem, 6vh, 4.1rem);
+  width: 9px;
+  height: 9px;
+  background: var(--red);
+  transition: transform 0.3s var(--ease);
+}
+
+.stop:hover::before {
+  transform: rotate(45deg) scale(1.35);
+}
+
+.stop-year {
+  font-family: var(--font-display);
+  font-size: clamp(2.9rem, 9vw, 5.5rem);
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(242, 240, 235, 0.5);
+  transition: color 0.45s ease;
+}
+
+.stop:hover .stop-year {
+  color: var(--paper);
+}
+
+.stop-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.35rem, 3.5vw, 1.9rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.stop-jp {
+  font-family: var(--font-jp);
+  font-size: 0.72em;
+  letter-spacing: 0.32em;
+  color: var(--red);
+  margin-left: 0.7rem;
+}
+
+.stop-text {
+  max-width: 56ch;
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: var(--ink-70);
+}
+
+
+/* ==========================================================================
+   12. CONTACT
+   ========================================================================== */
+
+.contact-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3.4rem, 12vw, 8.5rem);
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+}
+
+.contact-title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 1.04em;
+  color: var(--red);
+}
+
+.contact-sub {
+  max-width: 52ch;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--ink-70);
+  margin-bottom: clamp(3rem, 7vh, 4.5rem);
+}
+
+.contact-links ul li:last-child .contact-link {
+  border-bottom: 1px solid var(--line);
+}
+
+.contact-link {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) 2rem;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 1.1rem;
+  padding-block: 1.35rem;
+  border-top: 1px solid var(--line);
+  text-decoration: none;
+  transition: background 0.28s ease, color 0.28s ease;
+}
+
+.cl-num {
+  grid-row: 1;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  color: var(--red);
+}
+
+.cl-label {
+  grid-row: 1;
+  grid-column: 2;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 6vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.cl-value {
+  grid-row: 2;
+  grid-column: 2;
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-top: 0.35rem;
+  transition: color 0.28s ease;
+}
+
+.cl-arrow {
+  grid-row: 1;
+  grid-column: 3;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--muted);
+  transition: transform 0.28s var(--ease), color 0.28s ease;
+}
+
+/* hover: ink flips to paper */
+.contact-link:hover {
+  background: var(--paper);
+  color: var(--bg-0);
+}
+
+.contact-link:hover .cl-value,
+.contact-link:hover .cl-arrow {
+  color: rgba(9, 9, 9, 0.6);
+}
+
+.contact-link:hover .cl-arrow {
+  transform: translate(4px, -4px);
+}
+
+
+/* ==========================================================================
+   13. FINALE & COLOPHON
+   ========================================================================== */
+
+.finale {
+  background: var(--red);
+  color: var(--bg-0);
+  overflow: hidden;
+}
+
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid rgba(9, 9, 9, 0.28);
+  padding-block: 0.6rem;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 26s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-track span {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.6vw, 1.8rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex: none;
+}
+
+.finale-inner {
+  padding-block: clamp(2.5rem, 6vh, 4.5rem) 0;
+}
+
+.finale-meta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  margin-bottom: clamp(0.5rem, 2vh, 1.5rem);
+}
+
+/* the signature, cropped by the bottom edge of the red block */
+.finale-name {
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 27vw, 24rem);
+  line-height: 0.74;
+  letter-spacing: -0.005em;
+  margin-bottom: -0.12em;
+}
+
+.colophon {
+  background: var(--bg-0);
+  border-top: 1px solid var(--line);
+}
+
+.colophon-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding-block: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+.colo-jp {
+  font-family: var(--font-jp);
+  color: var(--red);
+}
+
+.colophon a {
+  text-decoration: none;
+  color: var(--muted);
+  transition: color 0.3s ease;
+}
+
+.colophon a:hover {
+  color: var(--red);
+}
+
+
+/* ==========================================================================
+   14. MOTION — keyframes, entrance choreography, reveal
+   ========================================================================== */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+}
+
+@keyframes wipe-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes img-settle {
+  from {
+    transform: scale(1.14);
+  }
+}
+
+@keyframes drip {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* hero — cinematic title sequence on load */
+.hero-overline {
+  animation: rise 0.6s 0.05s var(--ease) both;
+}
+
+.hero-name {
+  animation: rise 0.7s 0.16s var(--ease) both;
+}
+
+.hero-frame {
+  animation: wipe-in 0.9s 0.3s var(--ease) both;
+}
+
+.hero-frame img {
+  animation: img-settle 1.5s 0.3s var(--ease) both;
+}
+
+.hero-caption {
+  animation: rise 0.6s 0.55s var(--ease) both;
+}
+
+.hero-headline {
+  animation: rise 0.7s 0.42s var(--ease) both;
+}
+
+.hero-intro {
+  animation: rise 0.7s 0.52s var(--ease) both;
+}
+
+.hero-meta {
+  animation: rise 0.7s 0.62s var(--ease) both;
+}
+
+.hero-issue {
+  animation: rise 0.8s 0.8s var(--ease) both;
+}
+
+.hero-scroll {
+  animation: rise 0.7s 0.95s var(--ease) both;
+}
+
+/* scroll-driven reveals — progressive enhancement only;
+   browsers without animation-timeline simply show content as-is */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: rise 0.9s var(--ease) both;
+      animation-timeline: view();
+      animation-range: entry 4% entry 55%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ==========================================================================
+   15. RESPONSIVE — tablet  ≥760px
+   ========================================================================== */
+
+@media (min-width: 760px) {
+
+  :root {
+    --header-h: 4rem;
+  }
+
+  /* inline navigation replaces the burger */
+  .nav-links {
+    display: flex;
+    gap: clamp(1.1rem, 2.6vw, 2.2rem);
+    margin-left: auto;
+  }
+
+  .nav-burger {
+    display: none;
+  }
+
+  .nav-status {
+    display: block;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  /* hero — figure below the name, wide-screen rhythm */
+  .hero-inner {
+    row-gap: clamp(1.3rem, 3vh, 2.2rem);
+  }
+
+  .hero-frame {
+    aspect-ratio: auto;
+    height: min(62vh, 34rem);
+  }
+
+  .hero-name {
+    font-size: max(6.5rem, 24vw);
+  }
+
+  .hero-headline {
+    font-size: clamp(3rem, 5.4vw, 5rem);
+  }
+
+  .hero-intro {
+    font-size: 1.12rem;
+  }
+
+  .hero-scroll {
+    margin-top: 0;
+  }
+
+  /* about — the editorial spread */
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: start;
+  }
+
+  .about-figure {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+    max-width: none;
+  }
+
+  /* skills — single-line rows */
+  .skill {
+    grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 24rem) 2.5rem;
+    grid-template-rows: none;
+    align-items: center;
+    gap: 1.5rem;
+    padding-block: 1.5rem;
+    padding-right: 1rem;
+  }
+
+  .skill-name {
+    grid-row: auto;
+  }
+
+  .skill-note {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .skill-arrow {
+    display: block;
+    grid-column: 4;
+    font-family: var(--font-mono);
+    color: transparent;
+    transition: color 0.28s ease, transform 0.28s var(--ease);
+  }
+
+  .skill:hover .skill-arrow {
+    color: var(--bg-0);
+    transform: translate(4px, -4px);
+  }
+
+  /* projects A & B — asymmetric two-column compositions */
+  .project-a,
+  .project-b {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  .project-a .project-media {
+    grid-column: 1 / 9;
+    grid-row: 1;
+    aspect-ratio: 16 / 10;
+    align-self: stretch;
+  }
+
+  .project-a .project-body {
+    grid-column: 7 / 13;
+    grid-row: 1;
+    align-self: end;
+    margin: 0 0 clamp(-2.5rem, -4vw, -1rem) 0;
+    padding: clamp(1.6rem, 3vw, 3rem);
+    background: var(--bg-1);
+  }
+
+  .project-a .project-idx {
+    top: -0.45em;
+    left: calc(var(--gutter) - 0.05em);
+  }
+
+  .project-b .project-body {
+    grid-column: 1 / 6;
+    grid-row: 1;
+    padding-right: clamp(1.5rem, 4vw, 4rem);
+    background: none;
+    border: none;
+    margin: 0;
+  }
+
+  .project-b .project-body:hover,
+  .project-b:hover .project-body {
+    background: none;
+    border: none;
+  }
+
+  .project-b .project-plate {
+    grid-column: 6 / 12;
+    grid-row: 1;
+    margin-top: clamp(2rem, 6vw, 4.5rem);
+    position: relative;
+    align-self: start;
+  }
+
+  /* crimson plate offset behind the image */
+  .project-b .project-plate::before {
+    content: '';
+    position: absolute;
+    top: -1.4rem;
+    right: -1.4rem;
+    width: 100%;
+    height: 100%;
+    background: var(--red);
+    z-index: 0;
+    transition: transform 0.45s var(--ease);
+  }
+
+  .project-b .project-media {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 4 / 5;
+  }
+
+  .project-b .project-caption {
+    position: relative;
+    z-index: 1;
+  }
+
+  .project-b:hover .project-plate::before {
+    transform: translate(0.9rem, -0.9rem);
+  }
+
+  .project-b .project-idx {
+    bottom: -0.15em;
+    right: calc(var(--gutter) - 0.05em);
+    left: auto;
+    top: auto;
+  }
+
+  /* project C — full-width band with an overlaid panel */
+  .project-c .project-media {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    min-height: 24rem;
+  }
+
+  .project-c .project-body {
+    position: absolute;
+    left: clamp(1.25rem, 4vw, 4rem);
+    bottom: clamp(1.5rem, 6vh, 4rem);
+    max-width: 32rem;
+    margin: 0;
+    background: var(--bg-0);
+  }
+
+  .project-c .project-idx {
+    top: -0.5em;
+    right: calc(var(--gutter) - 0.05em);
+    left: auto;
+  }
+
+  /* journey — year beside the story */
+  .stop {
+    grid-template-columns: minmax(7rem, 10rem) minmax(0, 1fr);
+    gap: clamp(1.2rem, 3vw, 2.5rem);
+    align-items: start;
+  }
+
+  .stop:nth-child(even) .stop-body {
+    margin-left: clamp(1rem, 8vw, 9rem);
+  }
+
+  /* contact — single-line rows */
+  .contact-link {
+    grid-template-columns: minmax(3.5rem, 5rem) minmax(0, 1fr) minmax(0, 1fr) 2rem;
+    grid-template-rows: none;
+  }
+
+  .cl-label {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .cl-value {
+    grid-column: auto;
+    grid-row: auto;
+    justify-self: end;
+    margin-top: 0;
+    font-size: 0.78rem;
+  }
+
+  .cl-arrow {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+
+/* ==========================================================================
+   16. RESPONSIVE — desktop ≥1080px
+   ========================================================================== */
+
+@media (min-width: 1080px) {
+
+  :root {
+    --header-h: 4.25rem;
+  }
+
+  .hero {
+    padding-bottom: 4.25rem;
+  }
+
+  /* hero — the full editorial composition:
+     name spills across the column boundary onto the image */
+  .hero-inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-rows: auto auto auto 1fr auto;
+    grid-template-areas:
+      "overline figure"
+      "name     figure"
+      "headline figure"
+      "intro    figure"
+      "meta     figure";
+    row-gap: clamp(0.9rem, 2.2vh, 1.6rem);
+    min-height: calc(100svh - var(--header-h) - 5rem);
+    align-content: stretch;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    left: var(--gutter);
+    bottom: 1.25rem;
+    margin-top: 0;
+  }
+
+  .hero-name {
+    font-size: max(7rem, 31vw);
+  }
+
+  .hero-meta {
+    align-self: end;
+  }
+
+  /* the image panel fills the full height of the composition */
+  .hero-figure {
+    height: 100%;
+  }
+
+  .hero-frame {
+    flex: 1;
+    aspect-ratio: auto;
+    height: auto;
+    min-height: 0;
+  }
+
+  /* skills — the staircase: each row steps further into the margin */
+  .skill:nth-child(2) { margin-left: 3vw; }
+  .skill:nth-child(3) { margin-left: 6vw; }
+  .skill:nth-child(4) { margin-left: 9vw; }
+  .skill:nth-child(5) { margin-left: 12vw; }
+  .skill:nth-child(6) { margin-left: 15vw; }
+  .skill:nth-child(7) { margin-left: 18vw; }
+
+  .stop-text {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALI — Creative Developer · Portfolio One</title>
+  <meta name="description" content="ALI — a creative developer building digital worlds with hand-written HTML and CSS. A dark, manga-inspired editorial portfolio.">
+  <meta name="theme-color" content="#090909">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23090909'/%3E%3Crect x='6' y='6' width='22' height='22' fill='%23D51F32'/%3E%3Ctext x='36' y='52' font-family='Arial Black, Arial, sans-serif' font-size='36' font-weight='900' fill='%23F2F0EB'%3EA%3C/text%3E%3C/svg%3E">
+
+  <!-- Typography: Anton (display) · Archivo (text) · Instrument Serif (editorial italic) · Space Mono (metadata) · Noto Sans JP (Japanese decorative) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Noto+Sans+JP:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body id="top">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============================================================
+       01 — NAVIGATION · fixed rail, hairline rules, no JavaScript
+  ============================================================ -->
+  <header class="site-nav">
+    <nav class="nav-inner container" aria-label="Primary">
+
+      <a class="brand" href="#top">ALI<span class="brand-dot" aria-hidden="true">.</span></a>
+
+      <ul class="nav-links">
+        <li><a class="nav-link" href="#about"><span class="nl-num">01</span>ABOUT</a></li>
+        <li><a class="nav-link" href="#skills"><span class="nl-num">02</span>SKILLS</a></li>
+        <li><a class="nav-link" href="#work"><span class="nl-num">03</span>WORK</a></li>
+        <li><a class="nav-link" href="#journey"><span class="nl-num">04</span>JOURNEY</a></li>
+        <li><a class="nav-link" href="#contact"><span class="nl-num">05</span>CONTACT</a></li>
+      </ul>
+
+      <p class="nav-status"><span class="status-dot" aria-hidden="true"></span>OPEN FOR WORK</p>
+
+      <!-- Pure-CSS menu toggle: the :target technique — see .menu in the stylesheet -->
+      <a class="nav-burger" href="#menu" aria-label="Open navigation menu">
+        <span></span><span></span><span></span>
+      </a>
+
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       MOBILE MENU · opens via #menu, closes the moment any
+       in-page link is followed — CSS only, no JavaScript
+  ============================================================ -->
+  <nav class="menu" id="menu" aria-label="Mobile">
+    <div class="menu-head">
+      <p class="menu-label">目次 — INDEX</p>
+      <a class="menu-close" href="#top">CLOSE <span aria-hidden="true">✕</span></a>
+    </div>
+
+    <ul class="menu-list">
+      <li>
+        <a class="menu-link" href="#about"><span class="ml-num">01</span><span class="ml-name">ABOUT</span><span class="ml-jp">私について</span></a>
+      </li>
+      <li>
+        <a class="menu-link" href="#skills"><span class="ml-num">02</span><span class="ml-name">SKILLS</span><span class="ml-jp">技術</span></a>
+      </li>
+      <li>
+        <a class="menu-link" href="#work"><span class="ml-num">03</span><span class="ml-name">WORK</span><span class="ml-jp">作品</span></a>
+      </li>
+      <li>
+        <a class="menu-link" href="#journey"><span class="ml-num">04</span><span class="ml-name">JOURNEY</span><span class="ml-jp">旅路</span></a>
+      </li>
+      <li>
+        <a class="menu-link" href="#contact"><span class="ml-num">05</span><span class="ml-name">CONTACT</span><span class="ml-jp">連絡</span></a>
+      </li>
+    </ul>
+
+    <div class="menu-foot">
+      <p>ALI — CREATIVE DEVELOPER</p>
+      <p>© 2026 · HAND-WRITTEN HTML + CSS</p>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- ============================================================
+         02 — HERO · cinematic title sequence, asymmetric composition
+    ============================================================ -->
+    <section class="hero" aria-label="Introduction">
+
+      <p class="hero-issue" aria-hidden="true">ISSUE Nº 001 — VOL. 01 — PORTFOLIO — 2026</p>
+
+      <div class="hero-inner container">
+
+        <p class="hero-overline">
+          <span class="overline-tick" aria-hidden="true"></span>
+          PORTFOLIO — 2026
+          <span class="overline-jp">作品集</span>
+        </p>
+
+        <h1 class="hero-name">
+          <span class="hero-name-text">ALI<span class="hero-dot">.</span></span>
+          <span class="hero-name-echo" aria-hidden="true">ALI.</span>
+        </h1>
+
+        <figure class="hero-figure">
+          <div class="img-frame hero-frame">
+            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&amp;w=900&amp;auto=format&amp;fit=crop"
+                 alt="Rain-dark Tokyo alley glowing with neon signage at night"
+                 width="900" height="1200" fetchpriority="high">
+            <span class="hero-jp" aria-hidden="true">創造</span>
+          </div>
+          <figcaption class="hero-caption">
+            <span class="hc-num">FIG. 00</span>深夜の街 — MIDNIGHT CITY
+          </figcaption>
+        </figure>
+
+        <p class="hero-headline">
+          BUILDING DIGITAL
+          <em>WORLDS.</em>
+        </p>
+
+        <p class="hero-intro">
+          I&rsquo;m a creative developer who treats the browser like a canvas — semantic HTML for bones,
+          hand-crafted CSS for skin, and a stubborn belief that a web page can carry atmosphere.
+        </p>
+
+        <ul class="hero-meta">
+          <li>CREATIVE DEVELOPER</li>
+          <li>HTML + CSS</li>
+          <li>EARTH — GMT+2</li>
+        </ul>
+
+        <a class="hero-scroll" href="#about" aria-label="Scroll down to the about section">
+          <span class="hs-label">SCROLL</span>
+          <span class="hs-line" aria-hidden="true"></span>
+          <span class="hs-arrow" aria-hidden="true">↓</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         03 — ABOUT · editorial spread with metadata
+    ============================================================ -->
+    <section class="about" id="about">
+
+      <header class="sec-head container">
+        <p class="sec-kicker">
+          <span class="sec-num">01</span>
+          <span class="sec-jp">私について</span>
+          <span class="sec-note">WHO IS ALI</span>
+        </p>
+        <h2 class="sec-title">ABOUT</h2>
+      </header>
+
+      <div class="about-grid container">
+
+        <figure class="about-figure reveal">
+          <div class="img-frame about-frame">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&amp;w=700&amp;auto=format&amp;fit=crop"
+                 alt="Black-and-white portrait of the developer lit by a single window"
+                 width="700" height="930" loading="lazy">
+          </div>
+          <figcaption class="about-caption">
+            <span class="hc-num">FIG. 01</span>THE DEVELOPER — 開発者
+          </figcaption>
+
+          <dl class="about-meta">
+            <div>
+              <dt>LOCATION</dt>
+              <dd>EARTH — GMT+2</dd>
+            </div>
+            <div>
+              <dt>FOCUS</dt>
+              <dd>CREATIVE DEVELOPMENT</dd>
+            </div>
+            <div>
+              <dt>INTERESTS</dt>
+              <dd>TYPE · GRID · FILM · SOUND</dd>
+            </div>
+            <div>
+              <dt>STATUS</dt>
+              <dd class="st-open"><span class="status-dot" aria-hidden="true"></span>OPEN FOR WORK</dd>
+            </div>
+          </dl>
+        </figure>
+
+        <div class="about-body reveal">
+          <p class="about-statement">
+            TECHNOLOGY IS THE <em>brush.</em><br>
+            CREATIVITY IS THE <em class="st-red">ink.</em>
+          </p>
+
+          <p class="about-bio">
+            I came to the web from the terminal — algorithms first, aesthetics later. Somewhere between
+            my first <code>&lt;div&gt;</code> and my first keyframe I realised code could do more than compute:
+            it could compose. Now I build interfaces the way editors build magazines — hierarchy, tension,
+            and negative space doing the heavy lifting.
+          </p>
+
+          <p class="about-bio">
+            Off-screen I collect typefaces I can&rsquo;t afford, re-watch the same three films, and photograph
+            cities after midnight. This site is the practice made visible — no frameworks, no libraries,
+            no JavaScript. Just structure and style, doing everything.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         04 — SKILLS · typographic index, no progress bars
+    ============================================================ -->
+    <section class="skills" id="skills">
+
+      <header class="sec-head container">
+        <p class="sec-kicker">
+          <span class="sec-num">02</span>
+          <span class="sec-jp">技術</span>
+          <span class="sec-note">TOOLS OF CHOICE</span>
+        </p>
+        <h2 class="sec-title">SKILLS</h2>
+      </header>
+
+      <ul class="skills-list container reveal">
+        <li class="skill">
+          <span class="skill-idx">01</span>
+          <h3 class="skill-name">HTML5</h3>
+          <p class="skill-note">Semantic structure, accessible markup — documents that mean something.</p>
+          <span class="skill-arrow" aria-hidden="true">↗</span>
+        </li>
+        <li class="skill">
+          <span class="skill-idx">02</span>
+          <h3 class="skill-name">CSS3</h3>
+          <p class="skill-note">Grid, flexbox, custom properties — art direction as code.</p>
+          <span class="skill-arrow" aria-hidden="true">↗</span>
+        </li>
+        <li class="skill">
+          <span class="skill-idx">03</span>
+          <h3 class="skill-name">PYTHON</h3>
+          <p class="skill-note">Automation, scripting, and the logic underneath.</p>
+          <span class="skill-arrow" aria-hidden="true">↗</span>
+        </li>
+        <li class="skill">
+          <span class="skill-idx">04</span>
+          <h3 class="skill-name">JAVASCRIPT</h3>
+          <p class="skill-note">Interaction beyond the stylesheet. Used with restraint.</p>
+          <span class="skill-arrow" aria-hidden="true">↗</span>
+        </li>
+        <li class="skill">
+          <span class="skill-idx">05</span>
+          <h3 class="skill-name">C++</h3>
+          <p class="skill-note">Memory, discipline, fundamentals.</p>
+          <span class="skill-arrow" aria-hidden="true">↗</span>
+        </li>
+        <li class="skill">
+          <span class="skill-idx">06</span>
+          <h3 class="skill-name">GIT</h3>
+          <p class="skill-note">Version control and fearless collaboration.</p>
+          <span class="skill-arrow" aria-hidden="true">↗</span>
+        </li>
+        <li class="skill">
+          <span class="skill-idx">07</span>
+          <h3 class="skill-name">RESPONSIVE WEB DESIGN</h3>
+          <p class="skill-note">One composition, every screen.</p>
+          <span class="skill-arrow" aria-hidden="true">↗</span>
+        </li>
+      </ul>
+
+    </section>
+
+    <!-- ============================================================
+         05 — SELECTED WORK · three projects, three compositions
+    ============================================================ -->
+    <section class="work" id="work">
+
+      <header class="sec-head container">
+        <p class="sec-kicker">
+          <span class="sec-num">03</span>
+          <span class="sec-jp">作品</span>
+          <span class="sec-note">THREE STUDIES</span>
+        </p>
+        <h2 class="sec-title">SELECTED WORK</h2>
+      </header>
+
+      <p class="work-note container reveal">
+        Three selected studies, built between 2024 and 2026 — one for structure, one for restraint,
+        one for breaking the rules politely.
+      </p>
+
+      <!-- PROJECT 01 — NEO CITY · full-bleed image, panel overlapping the frame -->
+      <article class="project project-a container reveal">
+        <span class="project-idx" aria-hidden="true">01</span>
+
+        <div class="project-media img-frame">
+          <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&amp;w=1400&amp;auto=format&amp;fit=crop"
+               alt="Futuristic city skyline glowing above dark streets at night"
+               width="1400" height="880" loading="lazy">
+        </div>
+
+        <div class="project-body">
+          <p class="project-kicker">
+            <span class="pk-num">PROJECT 01</span>
+            <span class="pk-meta">2025 · 都市</span>
+          </p>
+          <h3 class="project-title">NEO CITY</h3>
+          <p class="project-desc">
+            A futuristic digital city exploration concept — districts drawn as data, streets ruled in
+            grid lines, navigation by neon. A night that never quite ends.
+          </p>
+          <ul class="project-tags">
+            <li>HTML5</li>
+            <li>CSS3</li>
+            <li>GRID</li>
+            <li>SVG</li>
+          </ul>
+          <p class="project-role">ROLE — DESIGN &amp; CODE</p>
+        </div>
+      </article>
+
+      <!-- PROJECT 02 — MONO ARCHIVE · text left, offset-framed plate right -->
+      <article class="project project-b container reveal">
+        <span class="project-idx" aria-hidden="true">02</span>
+
+        <div class="project-body">
+          <p class="project-kicker">
+            <span class="pk-num">PROJECT 02</span>
+            <span class="pk-meta">2024 · 静</span>
+          </p>
+          <h3 class="project-title">MONO ARCHIVE</h3>
+          <p class="project-desc">
+            A minimalist digital photography archive — every frame stripped back to light, texture
+            and silence. Hover to develop the negative.
+          </p>
+          <ul class="project-tags">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>FILTERS</li>
+          </ul>
+          <p class="project-role">ROLE — ART DIRECTION &amp; CODE</p>
+        </div>
+
+        <figure class="project-plate">
+          <div class="project-media img-frame">
+            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&amp;w=900&amp;auto=format&amp;fit=crop"
+                 alt="Minimalist monochrome mountain ridge dissolving into fog"
+                 width="900" height="1100" loading="lazy">
+          </div>
+          <figcaption class="project-caption">
+            <span class="hc-num">PLATE 02</span>静 — THE NEGATIVE, DEVELOPING
+          </figcaption>
+        </figure>
+      </article>
+
+      <!-- PROJECT 03 — PIXEL THEORY · full-width band, red duotone that clears on hover -->
+      <article class="project project-c container reveal">
+        <span class="project-idx" aria-hidden="true">03</span>
+
+        <div class="project-media img-frame">
+          <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&amp;w=1600&amp;auto=format&amp;fit=crop"
+               alt="Retro CRT screens glowing in a dark room"
+               width="1600" height="700" loading="lazy">
+        </div>
+
+        <div class="project-body">
+          <p class="project-kicker">
+            <span class="pk-num">PROJECT 03</span>
+            <span class="pk-meta">2026 · 実験</span>
+          </p>
+          <h3 class="project-title">PIXEL THEORY</h3>
+          <p class="project-desc">
+            An experimental creative web experience where type, colour and motion collide — a
+            controlled study of the rules CSS was never meant to break.
+          </p>
+          <ul class="project-tags">
+            <li>CSS</li>
+            <li>MOTION</li>
+            <li>TYPE</li>
+          </ul>
+          <p class="project-role">ROLE — EVERYTHING</p>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- ============================================================
+         06 — CREATIVE JOURNEY · vertical rail, outlined years
+    ============================================================ -->
+    <section class="journey" id="journey">
+
+      <header class="sec-head container">
+        <p class="sec-kicker">
+          <span class="sec-num">04</span>
+          <span class="sec-jp">旅路</span>
+          <span class="sec-note">2022 → NOW</span>
+        </p>
+        <h2 class="sec-title">CREATIVE JOURNEY</h2>
+      </header>
+
+      <ol class="journey-rail container reveal">
+        <li class="stop">
+          <span class="stop-year">2022</span>
+          <div class="stop-body">
+            <h3 class="stop-title">FIRST CONTACT <span class="stop-jp">始まり</span></h3>
+            <p class="stop-text">
+              Started learning programming. A terminal, a blinking cursor, and the realisation that
+              code is a language for building worlds — not just talking to machines.
+            </p>
+          </div>
+        </li>
+        <li class="stop">
+          <span class="stop-year">2023</span>
+          <div class="stop-body">
+            <h3 class="stop-title">THE BROWSER WOKE UP <span class="stop-jp">目覚め</span></h3>
+            <p class="stop-text">
+              Explored web development. Semantics, boxes, cascades — and the discovery that a
+              stylesheet is a place for taste.
+            </p>
+          </div>
+        </li>
+        <li class="stop">
+          <span class="stop-year">2024</span>
+          <div class="stop-body">
+            <h3 class="stop-title">MAKING THINGS <span class="stop-jp">制作</span></h3>
+            <p class="stop-text">
+              Developed personal projects and shipped them anyway. NEO CITY, MONO ARCHIVE, and a
+              hundred broken drafts that taught the rest.
+            </p>
+          </div>
+        </li>
+        <li class="stop">
+          <span class="stop-year">2026</span>
+          <div class="stop-body">
+            <h3 class="stop-title">CREATIVE DEVELOPMENT <span class="stop-jp">旅路</span></h3>
+            <p class="stop-text">
+              Currently exploring creative development — animation, typography, composition.
+              The work is the journey; the journey is the work.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+    </section>
+
+    <!-- ============================================================
+         07 — CONTACT · final sequence
+    ============================================================ -->
+    <section class="contact" id="contact">
+
+      <header class="sec-head container">
+        <p class="sec-kicker">
+          <span class="sec-num">05</span>
+          <span class="sec-jp">連絡</span>
+          <span class="sec-note">SAY HELLO</span>
+        </p>
+        <h2 class="sec-title">CONTACT</h2>
+      </header>
+
+      <div class="contact-grid container">
+
+        <h3 class="contact-title reveal">
+          LET&rsquo;S CREATE<br>
+          <em>SOMETHING.</em>
+        </h3>
+
+        <p class="contact-sub reveal">
+          Got a wild idea, a half-finished concept, or a deadline that scares you? My inbox is open —
+          I read everything, usually after midnight.
+        </p>
+
+        <address class="contact-links reveal">
+          <ul>
+            <li>
+              <a class="contact-link" href="mailto:hello@ali.example">
+                <span class="cl-num">E—01</span>
+                <span class="cl-label">EMAIL</span>
+                <span class="cl-value">HELLO@ALI.EXAMPLE</span>
+                <span class="cl-arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li>
+              <a class="contact-link" href="https://github.com/ali" target="_blank" rel="noopener">
+                <span class="cl-num">E—02</span>
+                <span class="cl-label">GITHUB</span>
+                <span class="cl-value">GITHUB.COM/ALI</span>
+                <span class="cl-arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li>
+              <a class="contact-link" href="https://www.linkedin.com/in/ali" target="_blank" rel="noopener">
+                <span class="cl-num">E—03</span>
+                <span class="cl-label">LINKEDIN</span>
+                <span class="cl-value">LINKEDIN.COM/IN/ALI</span>
+                <span class="cl-arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          </ul>
+        </address>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FINALE · red block, marquee band, cropped signature
+  ============================================================ -->
+  <div class="finale" aria-hidden="true">
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>BUILDING DIGITAL WORLDS — 何かを作ろう — LET&rsquo;S CREATE SOMETHING — NO JAVASCRIPT, ONLY CSS —&nbsp;</span>
+        <span>BUILDING DIGITAL WORLDS — 何かを作ろう — LET&rsquo;S CREATE SOMETHING — NO JAVASCRIPT, ONLY CSS —&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="finale-inner container">
+      <p class="finale-meta">PORTFOLIO ONE — THE END / 終</p>
+      <p class="finale-name">ALI.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       COLOPHON
+  ============================================================ -->
+  <footer class="colophon">
+    <div class="colophon-inner container">
+      <p>© 2026 ALI — ALL RIGHTS RESERVED</p>
+      <p>HAND-WRITTEN HTML + CSS · NO JAVASCRIPT · 0 FRAMEWORKS</p>
+      <p class="colo-jp">終</p>
+      <a href="#top">BACK TO TOP ↑</a>
+    </div>
+  </footer>
+
+</body>
+</html>
