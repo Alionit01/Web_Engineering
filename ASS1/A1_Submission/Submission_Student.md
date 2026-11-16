@@ -45,15 +45,31 @@ For the full explanation, examples, and reasoning, please see `Part1_Report_Stud
 - **Content on the site:** It includes my personal introduction, skills, projects/work, journey/education-related sections, and source/contact information as shown on the live website.
 
 ### Screenshots of completed CV website pages
-Screenshots of the live site are included in the `screenshots/` folder (and can be embedded in the final `.docx` submission):
-1. `screenshots/01-home.png` — home/hero view (top of the page)
-2. `screenshots/01-full-page.png` — full-page capture of the website
-3. `screenshots/02-about.png` — about section
-4. `screenshots/03-skills.png` — skills section
-5. `screenshots/04-work.png` — work/projects section
-6. `screenshots/05-journey.png` — journey/education section
-7. `screenshots/06-source.png` — source/assignment details section
-8. `screenshots/07-contact.png` — contact/footer section
+Screenshots of the live site (from the `screenshots/` folder):
+
+**1. Home / Hero (top of the page)**  
+![Home page](screenshots/01-home.png)
+
+**2. Full-page capture**  
+![Full page](screenshots/01-full-page.png)
+
+**3. About section**  
+![About section](screenshots/02-about.png)
+
+**4. Skills section**  
+![Skills section](screenshots/03-skills.png)
+
+**5. Work / Projects section**  
+![Work section](screenshots/04-work.png)
+
+**6. Journey / Education section**  
+![Journey section](screenshots/05-journey.png)
+
+**7. Source / Assignment details section**  
+![Source section](screenshots/06-source.png)
+
+**8. Contact / Footer section**  
+![Contact section](screenshots/07-contact.png)
 
 ## Notes
 - The GitHub repository and live website links above are kept accessible as required.
