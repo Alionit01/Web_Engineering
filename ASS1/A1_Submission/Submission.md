@@ -37,15 +37,17 @@ The source is technically careful and well qualified. Refinements suggested for 
 - **Content:** Personal introduction, skills, projects/work, journey/education context, source/contact information (as presented on the live site).
 
 ### Screenshots of completed CV website pages
-Include screenshots of the live site (save in `screenshots/` and embed in the final `.docx`). Recommended captures:
+Screenshots of the live site are included in `screenshots/` (embed them in the final `.docx` submission):
 1. `screenshots/01-home.png` — Hero / landing (top of page)
-2. `screenshots/02-about.png` — About section
-3. `screenshots/03-skills.png` — Skills section
-4. `screenshots/04-work.png` — Work/projects section
-5. `screenshots/05-journey.png` — Journey/education section
-6. `screenshots/06-contact.png` — Contact/footer section
+2. `screenshots/01-full-page.png` — Full-page capture
+3. `screenshots/02-about.png` — About section
+4. `screenshots/03-skills.png` — Skills section
+5. `screenshots/04-work.png` — Work/projects section
+6. `screenshots/05-journey.png` — Journey/education section
+7. `screenshots/06-source.png` — Source/assignment details section
+8. `screenshots/07-contact.png` — Contact/footer section
 
-*(If image files are present in `screenshots/`, embed them here in the Word document submission. Example references: `./screenshots/01-home.png`, etc.)*
+*(Embed the image files from `./screenshots/` in the Word document submission as needed.)*
 
 ---
 

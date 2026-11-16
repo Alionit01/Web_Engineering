@@ -48,13 +48,12 @@ For the full explanation, examples, and reasoning, please see `Part1_Report_Stud
 Screenshots of the live site are included in the `screenshots/` folder (and can be embedded in the final `.docx` submission):
 1. `screenshots/01-home.png` — home/hero view (top of the page)
 2. `screenshots/01-full-page.png` — full-page capture of the website
-3. `screenshots/02-about.png` — about section (if captured separately)
-4. `screenshots/03-skills.png` — skills section (if captured separately)
-5. `screenshots/04-work.png` — work/projects section (if captured separately)
-6. `screenshots/05-journey.png` — journey/education section (if captured separately)
-7. `screenshots/06-contact.png` — contact/footer section (if captured separately)
-
-At the moment, `01-home.png` and `01-full-page.png` are already saved in the folder. If separate section screenshots are needed for the final Word file, they can be taken from the live site and added to the same folder before embedding.
+3. `screenshots/02-about.png` — about section
+4. `screenshots/03-skills.png` — skills section
+5. `screenshots/04-work.png` — work/projects section
+6. `screenshots/05-journey.png` — journey/education section
+7. `screenshots/06-source.png` — source/assignment details section
+8. `screenshots/07-contact.png` — contact/footer section
 
 ## Notes
 - The GitHub repository and live website links above are kept accessible as required.
